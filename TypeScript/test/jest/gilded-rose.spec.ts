@@ -28,10 +28,36 @@ describe('Gilded Rose', () => {
 
   //--------------------------------
   // Backstage item
+
+   it('should not increase the quality when its 50 when sellin greater than 10', () => {
+    const gildedRose = new GildedRose([new Item('Backstage passes to a TAFKAL80ETC concert', 20, 0)]);
+    const items = gildedRose.updateQuality();
+    expect(items[0].quality).toBe(1);
+  });
+
+  it('should not increase the quality when its 50 when sellin greater than 10', () => {
+    const gildedRose = new GildedRose([new Item('Backstage passes to a TAFKAL80ETC concert', 20, 50)]);
+    const items = gildedRose.updateQuality();
+    expect(items[0].quality).toBe(50);
+  });
+
   it('should increase quality of backstage passes by 2 when sell date lower or equals to 10 and greater than 5', () => {
     const gildedRose = new GildedRose([new Item('Backstage passes to a TAFKAL80ETC concert', 10, 0)]);
     const items = gildedRose.updateQuality();
     expect(items[0].quality).toBe(2);
+  });
+
+
+  it('should not increase the quality when its 50 when sellin inferior or equals to 10 and greater than 5', () => {
+    const gildedRose = new GildedRose([new Item('Backstage passes to a TAFKAL80ETC concert', 10, 50)]);
+    const items = gildedRose.updateQuality();
+    expect(items[0].quality).toBe(50);
+  });
+
+  it('should not increase the quality when its 50 when sellin inferior or equals to 5 and greater than 0', () => {
+    const gildedRose = new GildedRose([new Item('Backstage passes to a TAFKAL80ETC concert', 5, 50)]);
+    const items = gildedRose.updateQuality();
+    expect(items[0].quality).toBe(50);
   });
 
   it('should increase quality of backstage passes by 3 when sell date lower or equals to 5 and greater than 0', () => {
@@ -66,8 +92,14 @@ describe('Gilded Rose', () => {
     expect(items[0].quality).toBe(1);
   });
 
-  it('should not increase the quality if its already 50', () => {
+  it('should not increase the quality if its already 50 and sellin is greater than 0', () => {
     const gildedRose = new GildedRose([new Item('Aged Brie', 5, 50)]);
+    const items = gildedRose.updateQuality();
+    expect(items[0].quality).toBe(50);
+  });
+
+  it('should not increase the quality if its already 50 and sellin is 0', () => {
+    const gildedRose = new GildedRose([new Item('Aged Brie', 0, 50)]);
     const items = gildedRose.updateQuality();
     expect(items[0].quality).toBe(50);
   });
