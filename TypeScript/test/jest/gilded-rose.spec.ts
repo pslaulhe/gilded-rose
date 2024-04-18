@@ -26,6 +26,7 @@ describe('Gilded Rose', () => {
     expect(items[0].sellIn).toBe(4);
   });
 
+  //--------------------------------
   // Backstage item
   it('should increase quality of backstage passes by 2 when sell date lower or equals to 10 and greater than 5', () => {
     const gildedRose = new GildedRose([new Item('Backstage passes to a TAFKAL80ETC concert', 10, 0)]);
@@ -51,6 +52,7 @@ describe('Gilded Rose', () => {
     expect(items[0].quality).toBe(50);
   });
 
+  //--------------------------------
   // Aged Brie item
   it('should increase quality of aged brie when sell date is passed', () => {
     const gildedRose = new GildedRose([new Item('Aged Brie', 0, 0)]);
@@ -64,12 +66,13 @@ describe('Gilded Rose', () => {
     expect(items[0].quality).toBe(1);
   });
 
-  it('should increase quality of aged brie when sell date is not passed', () => {
+  it('should not increase the quality if its already 50', () => {
     const gildedRose = new GildedRose([new Item('Aged Brie', 5, 50)]);
     const items = gildedRose.updateQuality();
     expect(items[0].quality).toBe(50);
   });
 
+  //--------------------------------
   // Sulfuras item
   it('should not decrease sellin when item is Sulfuras', () => {
     const gildedRose = new GildedRose([new Item('Sulfuras, Hand of Ragnaros', 5, 80)]);
@@ -83,18 +86,23 @@ describe('Gilded Rose', () => {
     expect(items[0].quality).toBe(80);
   });
 
+  //--------------------------------
   // Conjured item
-
   it('should decrease quality of conjured item by 2 when sell date is not passed', () => {
-    const gildedRose = new GildedRose([new Item('Conjured item', 5, 10)]);
+    const gildedRose = new GildedRose([new Item('Conjured', 5, 10)]);
     const items = gildedRose.updateQuality();
     expect(items[0].quality).toBe(8);
   });
 
   it('should decrease quality of conjured item by 4 when sell date is passed', () => {
-    const gildedRose = new GildedRose([new Item('Conjured item', 0, 10)]);
+    const gildedRose = new GildedRose([new Item('Conjured', 0, 10)]);
     const items = gildedRose.updateQuality();
     expect(items[0].quality).toBe(6);
   });
 
+  it('should not decrease quality of conjured item if its already 0', () => {
+    const gildedRose = new GildedRose([new Item('Conjured', 0, 0)]);
+    const items = gildedRose.updateQuality();
+    expect(items[0].quality).toBe(0);
+  });
 });
