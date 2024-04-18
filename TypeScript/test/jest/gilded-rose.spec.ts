@@ -8,6 +8,12 @@ describe('Gilded Rose', () => {
     expect(items[0].quality).toBe(9);
   });
 
+  it('should not decrease the quality when its 0', () => {
+    const gildedRose = new GildedRose([new Item('Whatever', 1, 0)]);
+    const items = gildedRose.updateQuality();
+    expect(items[0].quality).toBe(0);
+  });
+
   it('should decrease quality of item when sell date is passed', () => {
     const gildedRose = new GildedRose([new Item('Whatever', 0, 10)]);
     const items = gildedRose.updateQuality();
@@ -37,6 +43,12 @@ describe('Gilded Rose', () => {
     const gildedRose = new GildedRose([new Item('Backstage passes to a TAFKAL80ETC concert', 0, 5)]);
     const items = gildedRose.updateQuality();
     expect(items[0].quality).toBe(0);
+  });
+
+  it('should not increase the quality when its 50', () => {
+    const gildedRose = new GildedRose([new Item('Backstage passes to a TAFKAL80ETC concert', 1, 50)]);
+    const items = gildedRose.updateQuality();
+    expect(items[0].quality).toBe(50);
   });
 
   // Age Brie item
