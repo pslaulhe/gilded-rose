@@ -21,19 +21,19 @@ describe('Gilded Rose', () => {
   });
 
   // Backstage item
-  it('should increase quality of backstage passes when sell date lower or equals to 10 and greater than 5', () => {
+  it('should increase quality of backstage passes by 2 when sell date lower or equals to 10 and greater than 5', () => {
     const gildedRose = new GildedRose([new Item('Backstage passes to a TAFKAL80ETC concert', 10, 0)]);
     const items = gildedRose.updateQuality();
     expect(items[0].quality).toBe(2);
   });
 
-  it('should increase quality of backstage passes when sell date inferior or equals to 5 and greater than 0', () => {
+  it('should increase quality of backstage passes by 3 when sell date lower or equals to 5 and greater than 0', () => {
     const gildedRose = new GildedRose([new Item('Backstage passes to a TAFKAL80ETC concert', 5, 0)]);
     const items = gildedRose.updateQuality();
     expect(items[0].quality).toBe(3);
   });
 
-  it('should increase quality of backstage passes when sell date is 0', () => {
+  it('should set quality of backstage passes to 0 when sell date is 0', () => {
     const gildedRose = new GildedRose([new Item('Backstage passes to a TAFKAL80ETC concert', 0, 5)]);
     const items = gildedRose.updateQuality();
     expect(items[0].quality).toBe(0);
@@ -52,6 +52,7 @@ describe('Gilded Rose', () => {
     expect(items[0].quality).toBe(1);
   });
 
+  // Sulfuras item
   it('should not decrease sellin when item is Sulfuras', () => {
     const gildedRose = new GildedRose([new Item('Sulfuras, Hand of Ragnaros', 5, 80)]);
     const items = gildedRose.updateQuality();
