@@ -82,4 +82,19 @@ describe('Gilded Rose', () => {
     const items = gildedRose.updateQuality();
     expect(items[0].quality).toBe(80);
   });
+
+  // Conjured item
+
+  it('should decrease quality of conjured item by 2 when sell date is not passed', () => {
+    const gildedRose = new GildedRose([new Item('Conjured item', 5, 10)]);
+    const items = gildedRose.updateQuality();
+    expect(items[0].quality).toBe(8);
+  });
+
+  it('should decrease quality of conjured item by 4 when sell date is passed', () => {
+    const gildedRose = new GildedRose([new Item('Conjured item', 0, 10)]);
+    const items = gildedRose.updateQuality();
+    expect(items[0].quality).toBe(6);
+  });
+
 });
