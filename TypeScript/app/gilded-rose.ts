@@ -19,51 +19,31 @@ export class GildedRose {
 
   updateQuality() {
     for (let i = 0; i < this.items.length; i++) {
-      this.updateItemQuality(this.items[i]);
+      this.updateItem(this.items[i]);
     }
 
     return this.items;
   }
 
 
-  updateItemQuality(item: Item) {
-    switch (item.name) {
-      case 'Aged Brie':
-        this.updateAgedBrie(item);
-        break;
-      case 'Backstage passes to a TAFKAL80ETC concert':
-        this.updateBackstagePass(item);
-        break;
-      case 'Sulfuras, Hand of Ragnaros':
-        // Sulfuras item remains unchanged
-        break;
-      case 'Conjured':
-        this.updateItem(item,2);
-        break;
-      default:
-        this.updateItem(item, 1);
-        break;
-    }
-  }
+  updateItem(item: Item) {
+    if (item.name === 'Sulfuras, Hand of Ragnaros') return;
 
-
-  private updateAgedBrie(item: Item) {
-    item.quality = Math.min(50, item.quality + 1);
     item.sellIn -= 1;
+    const sellInQualityModifierFactor = item.sellIn < 0 ? 2 : 1;
+    let qualityModifier: number;
 
-    if (item.sellIn < 0) {
-      item.quality = Math.min(50, item.quality + 1);
+    if (item.name === 'Aged Brie') {
+      qualityModifier = 1 * sellInQualityModifierFactor;
+    } else  if (item.name === 'Backstage passes to a TAFKAL80ETC concert') {
+      qualityModifier = item.sellIn < 0 ? -item.quality : this.getBackstagePassQualityIncrease(item);
+    } else if (item.name === 'Conjured') {
+      qualityModifier = -2 * sellInQualityModifierFactor;
+    } else {
+      qualityModifier = -1 * sellInQualityModifierFactor;
     }
-  }
 
-  private updateBackstagePass(item: Item) {
-    let qualityIncrease = this.getBackstagePassQualityIncrease(item);
-    item.quality = Math.min(50, item.quality + qualityIncrease);
-    item.sellIn -= 1;
-
-    if (item.sellIn < 0) {
-      item.quality = 0;
-    }
+    this.updateItemQuality(item, qualityModifier);
   }
 
   private getBackstagePassQualityIncrease(item: Item) {
@@ -78,11 +58,7 @@ export class GildedRose {
     }
   }
 
-  private updateItem(item: Item, degradingFactor: number){
-    item.quality = Math.max(0, item.quality - degradingFactor);
-    item.sellIn -= 1;
-    if (item.sellIn < 0) {
-      item.quality = Math.max(0, item.quality - degradingFactor);
-    }
+  private updateItemQuality(item: Item, qualityModifier: number){
+    item.quality = Math.min(50, Math.max(0, item.quality + qualityModifier));
   }
 }
